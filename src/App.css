@@ -1,0 +1,150 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+:root {
+  --clock-size: 100px;
+  --digit-width: 200px;
+  --digit-height: 300px;
+  --gap: 4px;
+  --transition-duration: 0.5s;
+  --background-color: white;
+  --clock-color: #000000;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.clock {
+  width: var(--clock-size);
+  height: var(--clock-size);
+  margin: var(--gap);
+  transition: transform var(--transition-duration) ease-in-out;
+  background: white;
+  border-radius: 50%;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.clock.manual {
+  cursor: grab;
+}
+
+.clock.manual:active {
+  cursor: grabbing;
+}
+
+.clock circle.clock-face {
+  fill: white;
+  stroke: #f0f0f0;
+  stroke-width: 1;
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+.clock .hour,
+.clock .minute {
+  stroke: var(--clock-color);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: transform 0s;
+}
+
+.clock.manual .hour,
+.clock.manual .minute {
+  cursor: grab;
+}
+
+.clock.manual .hour.dragging,
+.clock.manual .minute.dragging {
+  cursor: grabbing;
+  stroke: #444;
+}
+
+.digit {
+  width: var(--digit-width);
+  height: var(--digit-height);
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--gap);
+  background-color: white;
+  padding: var(--gap);
+}
+
+.digit-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+}
+
+.clock-grid {
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  background: none;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --clock-size: 80px;
+    --digit-width: 160px;
+    --digit-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --clock-size: 60px;
+    --digit-width: 120px;
+    --digit-height: 180px;
+  }
+}
