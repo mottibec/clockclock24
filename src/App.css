@@ -81,6 +81,7 @@ body {
   transition: transform var(--transition-duration) ease-in-out;
   position: relative;
   overflow: visible;
+  display: block;
 }
 
 .clock .hour,
@@ -88,7 +89,8 @@ body {
   stroke: var(--clock-hands-color);
   stroke-width: 3;
   stroke-linecap: round;
-  transition: transform 0s, stroke 0.3s ease;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .digit {
@@ -108,9 +110,9 @@ body {
 }
 
 .clock-grid {
-  padding: 20px;
+  padding: 30px;
   display: flex;
-  gap: 16px;
+  gap: 24px;
   justify-content: center;
   align-items: center;
   background: none;
@@ -136,4 +138,16 @@ body {
     --gap: 2px;
     --container-padding: 24px;
   }
+}
+
+.color-scheme-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.color-scheme-button:hover {
+  transform: translateY(-2px);
+}
+
+.color-scheme-button.selected {
+  transform: translateY(-2px);
 }

@@ -7,7 +7,6 @@ interface ClockGridProps {
 }
 
 const ClockGrid: React.FC<ClockGridProps> = ({ time }) => {
-
   const digits = time.replace(':', '').split('').map(Number);
   return (
     <motion.div

@@ -14,36 +14,39 @@ interface ColorScheme {
 // Predefined color schemes inspired by the reference image
 const colorSchemes: ColorScheme[] = [
   {
-    label: 'Navy Blue',
-    background: '#1a237e',
-    clockFace: '#1a237e',
+    label: 'White',
+    background: '#ffffff',
+    clockFace: '#ffffff',
+    hands: '#000000'
+  },
+  {
+    label: 'Black',
+    background: '#000000',
+    clockFace: '#000000',
     hands: '#ffffff'
   },
   {
-    label: 'Royal Blue',
+    label: 'Blue',
     background: '#1565c0',
     clockFace: '#1565c0',
-    hands: '#ffffff'
-  },
-  {
-    label: 'Midnight Blue',
-    background: '#0d47a1',
-    clockFace: '#0d47a1',
-    hands: '#ffffff'
-  },
-  {
-    label: 'Deep Navy',
-    background: '#0a1845',
-    clockFace: '#0a1845',
     hands: '#ffffff'
   }
 ]
 
 function App() {
-  const [time, setTime] = useState<string>(formatTime(new Date()))
+  const [time, setTime] = useState<string>("00:00")
   const [selectedScheme, setSelectedScheme] = useState<ColorScheme>(colorSchemes[0])
 
   useEffect(() => {
+    // Set initial time to 00:00
+    setTime("00:00")
+
+    // After a short delay, transition to current time
+    const transitionTimer = setTimeout(() => {
+      setTime(formatTime(new Date()))
+    }, 1000)
+
+    // Set up the regular time update interval
     const interval = setInterval(() => {
       const newTime = formatTime(new Date())
       if (newTime !== time) {
@@ -51,8 +54,11 @@ function App() {
       }
     }, 1000)
 
-    return () => clearInterval(interval)
-  }, [time])
+    return () => {
+      clearTimeout(transitionTimer)
+      clearInterval(interval)
+    }
+  }, [])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--background-color', selectedScheme.background)
@@ -97,16 +103,17 @@ function App() {
           <button
             key={scheme.label}
             onClick={() => setSelectedScheme(scheme)}
+            className='color-scheme-button'
             style={{
-              padding: '8px 12px',
+              padding: '10px 16px',
               border: `2px solid ${scheme.background}`,
-              borderRadius: '6px',
-              background: selectedScheme.label === scheme.label ? scheme.background : 'transparent',
-              color: selectedScheme.label === scheme.label ? '#ffffff' : scheme.background,
+              borderRadius: '8px',
+              background: scheme.background,
+              color: scheme.hands,
               cursor: 'pointer',
               fontSize: '14px',
-              transition: 'all 0.2s ease',
-              fontWeight: selectedScheme.label === scheme.label ? '600' : '400'
+              fontWeight: selectedScheme.label === scheme.label ? '600' : '400',
+              boxShadow: selectedScheme.label === scheme.label ? `0 2px 8px ${scheme.hands}40` : 'none'
             }}
           >
             {scheme.label}
