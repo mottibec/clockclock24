@@ -1,30 +1,64 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ClockGrid from './components/ClockGrid'
-import { formatTime, getCurrentDigits } from './utils/time'
+import { formatTime } from './utils/time'
 import './App.css'
+
+interface ColorScheme {
+  background: string;
+  clockFace: string;
+  hands: string;
+  label: string;
+}
+
+// Predefined color schemes inspired by the reference image
+const colorSchemes: ColorScheme[] = [
+  {
+    label: 'Navy Blue',
+    background: '#1a237e',
+    clockFace: '#1a237e',
+    hands: '#ffffff'
+  },
+  {
+    label: 'Royal Blue',
+    background: '#1565c0',
+    clockFace: '#1565c0',
+    hands: '#ffffff'
+  },
+  {
+    label: 'Midnight Blue',
+    background: '#0d47a1',
+    clockFace: '#0d47a1',
+    hands: '#ffffff'
+  },
+  {
+    label: 'Deep Navy',
+    background: '#0a1845',
+    clockFace: '#0a1845',
+    hands: '#ffffff'
+  }
+]
 
 function App() {
   const [time, setTime] = useState<string>(formatTime(new Date()))
-  const [isAnimating, setIsAnimating] = useState<boolean>(false)
-  const [isManual, setIsManual] = useState<boolean>(false)
+  const [selectedScheme, setSelectedScheme] = useState<ColorScheme>(colorSchemes[0])
 
   useEffect(() => {
-    // Update time every second when not in manual mode
-    if (!isManual) {
-      const interval = setInterval(() => {
-        const newTime = formatTime(new Date())
-        if (newTime !== time) {
-          setIsAnimating(true)
-          setTime(newTime)
-          // Stop animation after 1.5 seconds
-          setTimeout(() => setIsAnimating(false), 1500)
-        }
-      }, 1000)
+    const interval = setInterval(() => {
+      const newTime = formatTime(new Date())
+      if (newTime !== time) {
+        setTime(newTime)
+      }
+    }, 1000)
 
-      return () => clearInterval(interval)
-    }
-  }, [time, isManual])
+    return () => clearInterval(interval)
+  }, [time])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--background-color', selectedScheme.background)
+    document.documentElement.style.setProperty('--clock-face-color', selectedScheme.clockFace)
+    document.documentElement.style.setProperty('--clock-hands-color', selectedScheme.hands)
+  }, [selectedScheme])
 
   return (
     <div className="App" style={{
@@ -33,16 +67,17 @@ function App() {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#ffffff',
-      color: '#000000'
+      padding: '2rem'
     }}>
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+
+      <motion.div
+        className="clock-container"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-
-      </motion.h1>
+        <ClockGrid time={time} />
+      </motion.div>
 
       <motion.div
         className="controls"
@@ -52,33 +87,32 @@ function App() {
         style={{
           marginBottom: '20px',
           display: 'flex',
-          alignItems: 'center',
           gap: '8px',
-          padding: '12px',
+          padding: '16px',
           borderRadius: '8px',
-          backgroundColor: 'rgba(0, 0, 0, 0.03)'
+          backdropFilter: 'blur(10px)'
         }}
       >
-        <input
-          type="checkbox"
-          id="manual-mode"
-          checked={isManual}
-          onChange={(e) => setIsManual(e.target.checked)}
-          style={{ cursor: 'pointer' }}
-        />
-        <label
-          htmlFor="manual-mode"
-          style={{
-            cursor: 'pointer',
-            userSelect: 'none',
-            fontSize: '14px'
-          }}
-        >
-          Manual Mode
-        </label>
+        {colorSchemes.map((scheme) => (
+          <button
+            key={scheme.label}
+            onClick={() => setSelectedScheme(scheme)}
+            style={{
+              padding: '8px 12px',
+              border: `2px solid ${scheme.background}`,
+              borderRadius: '6px',
+              background: selectedScheme.label === scheme.label ? scheme.background : 'transparent',
+              color: selectedScheme.label === scheme.label ? '#ffffff' : scheme.background,
+              cursor: 'pointer',
+              fontSize: '14px',
+              transition: 'all 0.2s ease',
+              fontWeight: selectedScheme.label === scheme.label ? '600' : '400'
+            }}
+          >
+            {scheme.label}
+          </button>
+        ))}
       </motion.div>
-
-      <ClockGrid time={time} animate={isAnimating} manual={isManual} />
     </div>
   )
 }

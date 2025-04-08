@@ -4,16 +4,13 @@ import Digit from './Digit';
 
 interface ClockGridProps {
   time: string; // Format: "HH:MM"
-  animate?: boolean;
-  manual?: boolean;
 }
 
-const ClockGrid: React.FC<ClockGridProps> = ({ time, animate = false, manual = false }) => {
-  // Split the time string into individual digits
-  const digits = time.replace(':', '').split('').map(Number);
+const ClockGrid: React.FC<ClockGridProps> = ({ time }) => {
 
+  const digits = time.replace(':', '').split('').map(Number);
   return (
-    <motion.div 
+    <motion.div
       className="clock-grid"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -24,12 +21,12 @@ const ClockGrid: React.FC<ClockGridProps> = ({ time, animate = false, manual = f
           key={index}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ 
+          transition={{
             duration: 0.5,
             delay: index * 0.1
           }}
         >
-          <Digit digit={digit} animate={animate} manual={manual} />
+          <Digit digit={digit} />
         </motion.div>
       ))}
     </motion.div>

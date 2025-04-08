@@ -1,6 +1,6 @@
 # ClockClock24
 
-A React-based digital clock inspired by the [ClockClock24](https://www.humanssince1982.com/clockclock24) installation by Humans Since 1982. This project uses a grid of analog clocks to display digital time, with smooth animations during time transitions.
+A React-based digital clock inspired by the [ClockClock24](https://www.humanssince1982.com/en-int/products/clockclock-24-white) installation by Humans Since 1982. This project uses a grid of analog clocks to display digital time, with smooth animations during time transitions.
 
 ## Features
 

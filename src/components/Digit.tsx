@@ -5,11 +5,9 @@ import { HandPosition, digitFont } from '../fonts/digitFont';
 
 interface DigitProps {
   digit: number;
-  animate?: boolean;
-  manual?: boolean;
 }
 
-const Digit: React.FC<DigitProps> = ({ digit, animate = false, manual = false }) => {
+const Digit: React.FC<DigitProps> = ({ digit }) => {
   // Get the layout for the current digit from the digit font
   const layout: HandPosition[][] = digitFont[digit.toString()] || 
     Array(3).fill(null).map(() => 
@@ -37,13 +35,6 @@ const Digit: React.FC<DigitProps> = ({ digit, animate = false, manual = false })
               <Clock
                 hourAngle={clock.hour}
                 minuteAngle={clock.minute}
-                animate={animate}
-                manual={manual}
-                onAnglesChange={(h, m) => {
-                  if (manual) {
-                    console.log(`Digit ${digit}, Clock ${rowIndex}-${colIndex}:`, h, m);
-                  }
-                }}
               />
             </motion.div>
           ))}

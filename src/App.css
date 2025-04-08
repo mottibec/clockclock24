@@ -47,8 +47,10 @@
   --digit-height: 300px;
   --gap: 4px;
   --transition-duration: 0.5s;
-  --background-color: white;
-  --clock-color: #000000;
+  --background-color: #1a237e;
+  --clock-face-color: #1a237e;
+  --clock-hands-color: #ffffff;
+  --container-padding: 48px;
 }
 
 body {
@@ -59,6 +61,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease;
+}
+
+.clock-container {
+  background-color: var(--clock-face-color);
+  padding: var(--container-padding);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .clock {
@@ -66,46 +79,16 @@ body {
   height: var(--clock-size);
   margin: var(--gap);
   transition: transform var(--transition-duration) ease-in-out;
-  background: white;
-  border-radius: 50%;
-  cursor: default;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-}
-
-.clock.manual {
-  cursor: grab;
-}
-
-.clock.manual:active {
-  cursor: grabbing;
-}
-
-.clock circle.clock-face {
-  fill: white;
-  stroke: #f0f0f0;
-  stroke-width: 1;
-  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.15));
+  position: relative;
+  overflow: visible;
 }
 
 .clock .hour,
 .clock .minute {
-  stroke: var(--clock-color);
+  stroke: var(--clock-hands-color);
   stroke-width: 3;
   stroke-linecap: round;
-  transition: transform 0s;
-}
-
-.clock.manual .hour,
-.clock.manual .minute {
-  cursor: grab;
-}
-
-.clock.manual .hour.dragging,
-.clock.manual .minute.dragging {
-  cursor: grabbing;
-  stroke: #444;
+  transition: transform 0s, stroke 0.3s ease;
 }
 
 .digit {
@@ -114,7 +97,7 @@ body {
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   gap: var(--gap);
-  background-color: white;
+  background: none;
   padding: var(--gap);
 }
 
@@ -131,6 +114,9 @@ body {
   justify-content: center;
   align-items: center;
   background: none;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -138,6 +124,7 @@ body {
     --clock-size: 80px;
     --digit-width: 160px;
     --digit-height: 240px;
+    --container-padding: 32px;
   }
 }
 
@@ -146,5 +133,7 @@ body {
     --clock-size: 60px;
     --digit-width: 120px;
     --digit-height: 180px;
+    --gap: 2px;
+    --container-padding: 24px;
   }
 }
